@@ -4,6 +4,7 @@ import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import "./App.css";
+import SetAvatar from "./pages/SetAvatar";
 
 export default class App extends Component {
   render() {
@@ -13,6 +14,7 @@ export default class App extends Component {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Chat />} />
+          <Route path="/avatar" element={<SetAvatar />} />
         </Routes>
       </BrowserRouter>
     );

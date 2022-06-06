@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { registerRoute } from "../utils/APIRoutes";
 
 function Register() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -12,17 +13,32 @@ function Register() {
     confirmPassword: "",
   });
 
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+      navigate("/");
+    }
+  }, ["navigate"]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { password, confirmPassword, username, email } = values;
+      const { password, username, email } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
       });
+
+      console.log(data);
+      if (data.status === false) {
+        alert(`${data.message}`);
+      }
+
+      if (data.status === true) {
+        localStorage.setItem("chat-app-user", JSON.stringify(data.data.user));
+        navigate("/");
+      }
     }
-    alert("from");
   };
 
   const handleValidation = () => {
