@@ -19,7 +19,7 @@ export default function SetAvatar() {
     } else {
       const user = await JSON.parse(localStorage.getItem("chat-app-user"));
       const { data } = await axios.post(`${SetAvatarRoute}/${user._id}`, {
-        image: avatars[selectedAvatar],
+        image: selectedAvatar,
       });
 
       if (data.isSet) {
@@ -34,6 +34,9 @@ export default function SetAvatar() {
   };
 
   useEffect(() => {
+    if (!localStorage.getItem("chat-app-user")) {
+      navigate("/login");
+    }
     //   const data = [];
     //   for (let i = 0; i < 4; i++) {
     //     //   const image = await axios.get(`${api}/${Math.round(Math.random() * 1000)}`);
